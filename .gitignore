@@ -71,7 +71,7 @@ sysinfo.txt
 .vscode/
 *.code-workspace
 .history/
-.vscondig
+.vsconfig
 
 # ========== macOS specific ==========
 .DS_Store
