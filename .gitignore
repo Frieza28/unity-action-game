@@ -103,3 +103,6 @@ yarn-error.log*
 
 # Backup files
 *.bak
+
+# User-specific editor settings
+UserSettings/
