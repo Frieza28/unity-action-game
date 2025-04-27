@@ -1,5 +1,5 @@
 {
-    "name": "BigVegasInputActions",
+    "name": "PlayerControls",
     "maps": [
         {
             "name": "Player",
