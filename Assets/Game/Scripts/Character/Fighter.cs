@@ -3,12 +3,18 @@ using UnityEngine;
 public abstract class Fighter : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] protected Animator animator;
-    [SerializeField] protected AttackHandler attackHandler;
-    [SerializeField] protected CharacterController controller;
+    protected Animator animator;
+    protected AttackHandler attackHandler;
+    protected CharacterController controller;
 
     protected IInputProvider input;
 
+    protected virtual void Awake()
+    {
+        if (animator == null) animator = GetComponent<Animator>();
+        if (attackHandler == null) attackHandler = GetComponent<AttackHandler>();
+        if (controller == null) controller = GetComponent<CharacterController>();
+    }
     private void Update()
     {
         ReadInput();          // 1. Gather commands (hook)
