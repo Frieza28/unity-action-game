@@ -9,11 +9,13 @@ public abstract class Fighter : MonoBehaviour
 
     protected IInputProvider input;
 
-    protected virtual void Awake()
+    protected void Awake()
     {
         if (animator == null) animator = GetComponent<Animator>();
         if (attackHandler == null) attackHandler = GetComponent<AttackHandler>();
+        attackHandler.Init(animator);
         if (controller == null) controller = GetComponent<CharacterController>();
+        if (input == null) input = GetComponent<IInputProvider>();
     }
     private void Update()
     {
