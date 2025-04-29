@@ -22,8 +22,10 @@ public abstract class Fighter : MonoBehaviour
 
     protected virtual void HandleAttacks()
     {
-        if (!attackHandler.Ready) return;
-        if (input.StrikePressed) attackHandler.ExecuteStrike(input.StrikeIndex);
+        if (input.PunchPressed) attackHandler.ExecuteStrike(0);
+        if (input.KickPressed) attackHandler.ExecuteStrike(1);
+        if (input.StrikeCPressed) attackHandler.ExecuteStrike(2);
+        if (input.StrikeDPressed) attackHandler.ExecuteStrike(3);
         if (input.PowerPressed) attackHandler.ExecutePower();
     }
 
