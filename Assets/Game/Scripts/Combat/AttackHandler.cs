@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttackHandler : MonoBehaviour
 {
-    [Header("Strike Moves (order matters: 0-punchL,1-punchR,2-kickL,3-kickR,4-extraL,5-extraR…)")]
+    [Header("Strike Moves (order matters: 0-punchL,1-punchR,2-kickL,3-kickR,4-extraL,5-extraRï¿½)")]
     [SerializeField] private AttackSO[] strikes;
 
     [Header("Power Attack")]
@@ -50,7 +50,7 @@ public class AttackHandler : MonoBehaviour
         powerCooldown = powerStrike.cooldown;
     }
 
-    /// <summary>Cooldown ticking – call from Fighter.Update()</summary>
+    /// <summary>Cooldown ticking ï¿½ call from Fighter.Update()</summary>
     public void Tick(float dt)
     {
         for (int i = 0; i < strikeCooldowns.Length; i++)
@@ -60,10 +60,21 @@ public class AttackHandler : MonoBehaviour
     }
 
     // Called via Animation Event
-    public void OnHit(int attackSlot)        // 0-… index for strikes, -1 for power
+    public void OnHit(int attackSlot) // 0-â€¦ index for strikes, -1 for power
     {
-        throw new System.NotImplementedException("AttackHandler.OnHit() not implemented yet.");
+        AttackSO atk = attackSlot == -1 ? powerStrike : strikes[attackSlot];
+    
+        Collider[] hits = Physics.OverlapSphere(hitOrigin.position, atk.range, hittableMask);
+        foreach (var col in hits)
+        {
+            if (col.TryGetComponent(out Damageable dmg))
+            {
+                dmg.TakeDamage(atk.damage);
+                // Opcional: AudioSource.PlayClipAtPoint(atk.sfx, hitOrigin.position);
+            }
+        }
     }
+
 
     private void TriggerAnimation(AttackSO atk)
     {
