@@ -5,6 +5,7 @@ public class PlayerFighter : Fighter
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private Transform opponent;
 
     private Vector3 moveDir;
     private bool isJumping = false;
@@ -50,6 +51,12 @@ public class PlayerFighter : Fighter
             transform.forward = moveDir.normalized;
 
         animator.SetBool("IsWalking", moveDir.sqrMagnitude > 0.01f);
+
+        Vector3 directionToOpponent = opponent.position - transform.position;
+        directionToOpponent.y = 0f;
+        
+        if (directionToOpponent != Vector3.zero)
+            transform.forward = directionToOpponent.normalized;
     }
 
 }
