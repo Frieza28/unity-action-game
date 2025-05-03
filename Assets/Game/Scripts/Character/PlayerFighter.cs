@@ -3,8 +3,12 @@ using UnityEngine;
 public class PlayerFighter : Fighter
 {
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float jumpForce = 5f;
 
     private Vector3 moveDir;
+    private bool isJumping = false;
+    private float velocityY = 0f;
 
     protected override void ReadInput()
     {
@@ -14,20 +18,38 @@ public class PlayerFighter : Fighter
 
     protected override void HandleMovement()
     {
-        float originalY = transform.position.y;
-
-        if (moveDir.sqrMagnitude > 0.01f)
+        if (controller.isGrounded)
         {
-            controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
-            transform.forward = moveDir.normalized;
+            if (isJumping && velocityY < 0)
+            {
+                isJumping = false;
+                animator.SetBool("IsJumping", false);
+            }
+
+            velocityY = -2f;
+
+            // Novo Input System
+            if (input.JumpPressed)  
+            {
+                velocityY = jumpForce;
+                isJumping = true;
+                animator.SetBool("IsJumping", true);
+            }
+        }
+        else
+        {
+            velocityY += gravity * Time.deltaTime;
         }
 
-        Vector3 fix = transform.position;
-        fix.y = originalY;
-        transform.position = fix;
+        Vector3 fullMovement = moveDir.normalized * moveSpeed;
+        fullMovement.y = velocityY;
 
-        //if (!controller.isGrounded)
-        //    controller.Move(Physics.gravity * Time.deltaTime);
-        //    Debug.Log(controller.isGrounded);       
+        controller.Move(fullMovement * Time.deltaTime);
+
+        if (moveDir.sqrMagnitude > 0.01f)
+            transform.forward = moveDir.normalized;
+
+        animator.SetBool("IsWalking", moveDir.sqrMagnitude > 0.01f);
     }
+
 }
