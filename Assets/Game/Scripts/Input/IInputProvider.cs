@@ -8,4 +8,5 @@ public interface IInputProvider
     bool StrikeCPressed { get; }
     bool StrikeDPressed { get; }
     bool PowerPressed { get; }
+    bool JumpPressed { get; }
 }

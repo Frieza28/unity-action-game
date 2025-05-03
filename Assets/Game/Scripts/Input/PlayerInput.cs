@@ -12,6 +12,8 @@ namespace Game.Input
         private bool _strikeCPressed;
         private bool _strikeDPressed;
         private bool _powerPressed;
+        private bool _jumpPressed;
+
 
         /* -------------------- IInputProvider properties -------------------- */
         public Vector2 MoveVector => _move;
@@ -20,6 +22,7 @@ namespace Game.Input
         public bool StrikeCPressed => _strikeCPressed;
         public bool StrikeDPressed => _strikeDPressed;
         public bool PowerPressed => _powerPressed;
+        public bool JumpPressed => _jumpPressed;
 
         private void Awake()
         {
@@ -41,6 +44,9 @@ namespace Game.Input
             _strikeCPressed = controls.Combat.StrikeC.WasPressedThisFrame();
             _strikeDPressed = controls.Combat.StrikeD.WasPressedThisFrame();
             _powerPressed = controls.Combat.Power.WasPressedThisFrame();
+
+            _jumpPressed = controls.Movement.Jump.WasPressedThisFrame();
+
         }
     }
 }
