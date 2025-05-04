@@ -54,9 +54,22 @@ public class PlayerFighter : Fighter
 
         Vector3 directionToOpponent = opponent.position - transform.position;
         directionToOpponent.y = 0f;
-        
+
         if (directionToOpponent != Vector3.zero)
             transform.forward = directionToOpponent.normalized;
+
+        if (input.PunchPressed)
+            attackHandler.ExecuteStrike(0); 
+
+        if (input.PunchRPressed)
+            attackHandler.ExecuteStrike(2);
+
+        if (input.KickPressed)
+            attackHandler.ExecuteStrike(1); 
+            
+        if (input.KickRPressed)
+            attackHandler.ExecuteStrike(3); 
+
     }
 
 }
