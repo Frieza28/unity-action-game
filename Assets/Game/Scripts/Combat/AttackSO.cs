@@ -10,4 +10,11 @@ public class AttackSO : ScriptableObject
     public int damage = 1;
     public float range = 1.5f;
     public AudioClip sfx;
+
+    public virtual void Execute(Animator animator)
+    {
+        animator.SetTrigger(animationTrigger);
+    }
+
+
 }

@@ -32,8 +32,8 @@ public abstract class Fighter : MonoBehaviour
     {
         if (input.PunchPressed) attackHandler.ExecuteStrike(0);
         if (input.KickPressed) attackHandler.ExecuteStrike(1);
-        if (input.StrikeCPressed) attackHandler.ExecuteStrike(2);
-        if (input.StrikeDPressed) attackHandler.ExecuteStrike(3);
+        if (input.PunchRPressed) attackHandler.ExecuteStrike(2);
+        if (input.KickRPressed) attackHandler.ExecuteStrike(3);
         if (input.PowerPressed) attackHandler.ExecutePower();
     }
 
