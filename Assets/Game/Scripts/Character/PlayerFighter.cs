@@ -6,10 +6,15 @@ public class PlayerFighter : Fighter
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private Transform opponent;
+    [SerializeField] private PowerAttackHandler powerHandler;
 
     private Vector3 moveDir;
     private bool isJumping = false;
     private float velocityY = 0f;
+
+    private int punchToggle = 0;
+    private int kickToggle = 0;
+    private int strikeToggle = 0;
 
     protected override void ReadInput()
     {
@@ -29,8 +34,7 @@ public class PlayerFighter : Fighter
 
             velocityY = -2f;
 
-            // Novo Input System
-            if (input.JumpPressed)  
+            if (input.JumpPressed)
             {
                 velocityY = jumpForce;
                 isJumping = true;
@@ -52,24 +56,38 @@ public class PlayerFighter : Fighter
 
         animator.SetBool("IsWalking", moveDir.sqrMagnitude > 0.01f);
 
+        // Personagem olha sempre para o oponente
         Vector3 directionToOpponent = opponent.position - transform.position;
         directionToOpponent.y = 0f;
 
         if (directionToOpponent != Vector3.zero)
             transform.forward = directionToOpponent.normalized;
-
-        if (input.PunchPressed)
-            attackHandler.ExecuteStrike(0); 
-
-        if (input.PunchRPressed)
-            attackHandler.ExecuteStrike(2);
-
-        if (input.KickPressed)
-            attackHandler.ExecuteStrike(1); 
-            
-        if (input.KickRPressed)
-            attackHandler.ExecuteStrike(3); 
-
     }
 
+    protected override void HandleAttacks()
+    {
+        // "U" → alterna entre PunchL (0) e PunchR (1)
+        if (input.PunchPressed)
+        {
+            attackHandler.ExecuteStrike(punchToggle);
+            punchToggle = 1 - punchToggle;
+        }
+
+        // "I" → alterna entre KickL (2) e KickR (3)
+        if (input.KickPressed)
+        {
+            attackHandler.ExecuteStrike(kickToggle + 2);
+            kickToggle = 1 - kickToggle;
+        }
+
+        if (input.StrikePressed)
+        {
+            attackHandler.ExecuteStrike(strikeToggle + 4);
+            strikeToggle = 1 - strikeToggle;
+        }
+
+        if (input.PowerPressed)
+            powerHandler.ExecutePower();
+
+    }
 }

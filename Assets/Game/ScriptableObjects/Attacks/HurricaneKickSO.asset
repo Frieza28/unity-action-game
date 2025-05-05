@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6fd3106e49518f4e8b8a6123879c8a6, type: 3}
-  m_Name: StrikeDSO
+  m_Name: HurricaneKickSO
   m_EditorClassIdentifier: 
-  animationTrigger: StrikeD
-  cooldown: 0.5
-  damage: 1
-  range: 1.5
+  animationTrigger: Strike2
+  cooldown: 2
+  damage: 2
+  range: 2
   sfx: {fileID: 0}

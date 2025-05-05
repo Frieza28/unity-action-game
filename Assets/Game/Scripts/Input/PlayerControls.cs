@@ -901,27 +901,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""PunchR"",
-                    ""type"": ""Button"",
-                    ""id"": ""2094b9fd-649a-4858-9cc5-ed8ea31fe191"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""KickR"",
-                    ""type"": ""Button"",
-                    ""id"": ""f08a99ab-4e5b-4c4e-a417-18bae3e2b445"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Power"",
                     ""type"": ""Button"",
                     ""id"": ""697a1361-a930-4cdd-ad3c-fe28effe2aa8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Strike"",
+                    ""type"": ""Button"",
+                    ""id"": ""6cfbb6c9-28b3-4a9c-866a-b28025e453d6"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -954,7 +945,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6f9aef28-bea4-4c14-929a-ebb2886f7ece"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -975,52 +966,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""da309283-2b42-43df-a63b-115393da2f06"",
-                    ""path"": ""<Keyboard>/i"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PunchR"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""400fb20f-3d58-4932-be9a-071b19e64498"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PunchR"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d82c3c54-02cb-4b9c-9588-fec65b5820a3"",
-                    ""path"": ""<Keyboard>/k"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""KickR"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cf32e54d-1eff-4e7a-9a08-b0c6311e942a"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""KickR"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""cd72718d-3dff-4f46-9562-9ac2612aecde"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1036,6 +983,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a78524d7-0722-4969-add9-df3efabc4f52"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Strike"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3996e5e1-5d3a-4d97-a4b5-1a6c920e534f"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Strike"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1127,9 +1096,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
         m_Combat_Punch = m_Combat.FindAction("Punch", throwIfNotFound: true);
         m_Combat_Kick = m_Combat.FindAction("Kick", throwIfNotFound: true);
-        m_Combat_PunchR = m_Combat.FindAction("PunchR", throwIfNotFound: true);
-        m_Combat_KickR = m_Combat.FindAction("KickR", throwIfNotFound: true);
         m_Combat_Power = m_Combat.FindAction("Power", throwIfNotFound: true);
+        m_Combat_Strike = m_Combat.FindAction("Strike", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -1538,9 +1506,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<ICombatActions> m_CombatActionsCallbackInterfaces = new List<ICombatActions>();
     private readonly InputAction m_Combat_Punch;
     private readonly InputAction m_Combat_Kick;
-    private readonly InputAction m_Combat_PunchR;
-    private readonly InputAction m_Combat_KickR;
     private readonly InputAction m_Combat_Power;
+    private readonly InputAction m_Combat_Strike;
     /// <summary>
     /// Provides access to input actions defined in input action map "Combat".
     /// </summary>
@@ -1561,17 +1528,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Kick => m_Wrapper.m_Combat_Kick;
         /// <summary>
-        /// Provides access to the underlying input action "Combat/PunchR".
-        /// </summary>
-        public InputAction @PunchR => m_Wrapper.m_Combat_PunchR;
-        /// <summary>
-        /// Provides access to the underlying input action "Combat/KickR".
-        /// </summary>
-        public InputAction @KickR => m_Wrapper.m_Combat_KickR;
-        /// <summary>
         /// Provides access to the underlying input action "Combat/Power".
         /// </summary>
         public InputAction @Power => m_Wrapper.m_Combat_Power;
+        /// <summary>
+        /// Provides access to the underlying input action "Combat/Strike".
+        /// </summary>
+        public InputAction @Strike => m_Wrapper.m_Combat_Strike;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1604,15 +1567,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Kick.started += instance.OnKick;
             @Kick.performed += instance.OnKick;
             @Kick.canceled += instance.OnKick;
-            @PunchR.started += instance.OnPunchR;
-            @PunchR.performed += instance.OnPunchR;
-            @PunchR.canceled += instance.OnPunchR;
-            @KickR.started += instance.OnKickR;
-            @KickR.performed += instance.OnKickR;
-            @KickR.canceled += instance.OnKickR;
             @Power.started += instance.OnPower;
             @Power.performed += instance.OnPower;
             @Power.canceled += instance.OnPower;
+            @Strike.started += instance.OnStrike;
+            @Strike.performed += instance.OnStrike;
+            @Strike.canceled += instance.OnStrike;
         }
 
         /// <summary>
@@ -1630,15 +1590,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Kick.started -= instance.OnKick;
             @Kick.performed -= instance.OnKick;
             @Kick.canceled -= instance.OnKick;
-            @PunchR.started -= instance.OnPunchR;
-            @PunchR.performed -= instance.OnPunchR;
-            @PunchR.canceled -= instance.OnPunchR;
-            @KickR.started -= instance.OnKickR;
-            @KickR.performed -= instance.OnKickR;
-            @KickR.canceled -= instance.OnKickR;
             @Power.started -= instance.OnPower;
             @Power.performed -= instance.OnPower;
             @Power.canceled -= instance.OnPower;
+            @Strike.started -= instance.OnStrike;
+            @Strike.performed -= instance.OnStrike;
+            @Strike.canceled -= instance.OnStrike;
         }
 
         /// <summary>
@@ -1873,25 +1830,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnKick(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "PunchR" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPunchR(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "KickR" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnKickR(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Power" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPower(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Strike" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStrike(InputAction.CallbackContext context);
     }
 }
