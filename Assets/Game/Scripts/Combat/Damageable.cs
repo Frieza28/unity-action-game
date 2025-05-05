@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class Damageable : MonoBehaviour
 {
-    public int health = 5;
+    public int health = 10;
 
-    public void TakeDamage(int amount)
+    public void ApplyDamage(float amount)
     {
-        health -= amount;
-        Debug.Log($"{gameObject.name} levou {amount} de dano! Vida restante: {health}");
+        health -= Mathf.RoundToInt(amount);
+        Debug.Log($"{gameObject.name} levou {amount} de dano. Vida: {health}");
 
         if (health <= 0)
         {
@@ -18,7 +18,7 @@ public class Damageable : MonoBehaviour
     private void Die()
     {
         Debug.Log($"{gameObject.name} morreu!");
-        // Aqui podes adicionar lógica de morte, animação, desativar AI, etc.
-        gameObject.SetActive(false);
+        // Aqui podes pôr uma animação ou destruir
+        Destroy(gameObject);
     }
 }

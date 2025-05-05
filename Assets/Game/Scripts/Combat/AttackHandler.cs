@@ -69,7 +69,7 @@ public class AttackHandler : MonoBehaviour
         {
             if (col.TryGetComponent(out Damageable dmg))
             {
-                dmg.TakeDamage(atk.damage);
+                dmg.ApplyDamage(atk.damage);
                 // Opcional: AudioSource.PlayClipAtPoint(atk.sfx, hitOrigin.position);
             }
         }
