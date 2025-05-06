@@ -1,4 +1,6 @@
+using System.Collections.Generic;  
 using UnityEngine;
+
 
 public class AttackHandler : MonoBehaviour
 {
@@ -59,22 +61,38 @@ public class AttackHandler : MonoBehaviour
         if (powerCooldown > 0) powerCooldown -= dt;
     }
 
-    // Called via Animation Event
-    public void OnHit(int attackSlot) // 0-… index for strikes, -1 for power
+    public void OnHit(int attackSlot)
     {
-        AttackSO atk = attackSlot == -1 ? powerStrike : strikes[attackSlot];
-    
-        Collider[] hits = Physics.OverlapSphere(hitOrigin.position, atk.range, hittableMask);
+        bool isPower = attackSlot == -1;
+        AttackSO atk = isPower ? powerStrike : strikes[attackSlot];
+
+        if (!TryGetComponent(out ScoreKeeper attackerSK))
+            return;
+
+        var victims = new HashSet<Damageable>();  
+
+        Collider[] hits = Physics.OverlapSphere(
+            hitOrigin.position,
+            atk.range,
+            hittableMask);
+
         foreach (var col in hits)
         {
-            if (col.TryGetComponent(out Damageable dmg))
+            if (col.TryGetComponent(out Hitbox hb) && hb.owner != null)
             {
-                dmg.ApplyDamage(atk.damage);
-                // Opcional: AudioSource.PlayClipAtPoint(atk.sfx, hitOrigin.position);
+                if (!victims.Add(hb.owner)) continue;
+
+                int pts = isPower ? 5 :
+                          (hb.region == HitRegion.Head ? 2 : 1);
+
+                attackerSK.AddPoints(pts);
+
+                if (hb.owner.TryGetComponent(out HitSound sfx))
+                    sfx.PlayHit();
+
             }
         }
     }
-
 
     private void TriggerAnimation(AttackSO atk)
     {

@@ -1,24 +1,18 @@
-using UnityEngine;
+using UnityEngine;     
 
 public class Damageable : MonoBehaviour
 {
-    public int health = 10;
-
-    public void ApplyDamage(float amount)
+    public void ApplyHit(bool power, HitRegion region)
     {
-        health -= Mathf.RoundToInt(amount);
-        Debug.Log($"{gameObject.name} levou {amount} de dano. Vida: {health}");
-
-        if (health <= 0)
-        {
-            Die();
-        }
+        int pts = power ? 5 : (region == HitRegion.Head ? 2 : 1);
+        if (GetComponent<ScoreKeeper>() is ScoreKeeper sk)
+            sk.AddPoints(pts);         
     }
+
 
     private void Die()
     {
-        Debug.Log($"{gameObject.name} morreu!");
-        // Aqui podes pôr uma animação ou destruir
-        Destroy(gameObject);
+        Debug.Log($"{name} perdeu!");
+        gameObject.SetActive(false);
     }
 }

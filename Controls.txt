@@ -1,0 +1,7 @@
+WASD -> Move Character
+SPACE -> Jump
+
+U -> Punch Attacks
+I -> Kick Attacks
+
+J -> Power Attack
