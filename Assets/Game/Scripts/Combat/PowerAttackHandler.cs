@@ -50,4 +50,16 @@ public class PowerAttackHandler : MonoBehaviour
             }
         }
     }
+
+    public float CooldownFraction
+    {
+        get
+        {
+            float elapsed = Time.time - lastUsedTime;
+            return Mathf.Clamp01(1f - elapsed / powerAttack.cooldown);
+        }
+    }
+
+
+
 }
