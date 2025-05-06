@@ -24,7 +24,7 @@ public class EnemyFighter : Fighter
     private float bareTimer   = 20f;
 
     /* ----------------- cooldowns ----------------- */
-    private float strikeCooldown = 5f;   
+    private float strikeCooldown = 8f;   
     private float strikeCooldownTimer;
     private int   strikeToggle;          
     private float decisionTimer;        
