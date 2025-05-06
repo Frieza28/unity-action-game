@@ -2,91 +2,114 @@ using UnityEngine;
 
 public class EnemyFighter : Fighter
 {
+    [Header("Referências")]
     [SerializeField] private Transform player;
-    [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private float attackDistance = 2f;
-    [SerializeField] private float decisionCooldown = 2f;
-    [SerializeField] private float gravity = -9.81f;
-    [SerializeField] private float powerAttackRange = 6f;
     [SerializeField] private PowerAttackHandler powerHandler;
 
-    private float velocityY = 0f;
-    private float decisionTimer = 0f;
-    private int strikeToggle = 0;
-    private float strikeCooldown = 5f;
-    private float strikeCooldownTimer = 0f;
+    [Header("Movimento")]
+    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private float attackDistance = 2f;          
+    [SerializeField] private float gravity = -9.81f;
 
-    protected override void ReadInput()
-    {
-        // Não lê input real — controlado por IA
-    }
+    [Header("Power attack")]
+    [SerializeField] private float powerAttackRange = 6f;
 
+    /* ----------------- IA – probabilidades & timers ----------------- */
+    private float powerProb   = 0.30f;   // pp 30 %
+    private const float powerInc = 0.10f;
+    private float powerTimer  = 20f;
+
+    private float bareProb    = 0.60f;   // bp 60 %
+    private const float bareInc  = 0.05f;
+    private float bareTimer   = 20f;
+
+    /* ----------------- cooldowns ----------------- */
+    private float strikeCooldown = 5f;   
+    private float strikeCooldownTimer;
+    private int   strikeToggle;          
+    private float decisionTimer;        
+
+    private float velocityY;
+
+    protected override void ReadInput() { }   
+
+    /* ----------------- Movimento ----------------- */
     protected override void HandleMovement()
     {
-        Vector3 dirToPlayer = player.position - transform.position;
-        dirToPlayer.y = 0f;
-        float distance = dirToPlayer.magnitude;
+        Vector3 dir = player.position - transform.position;
+        dir.y = 0f;
+        float dist = dir.magnitude;
 
-        if (dirToPlayer != Vector3.zero)
-            transform.forward = dirToPlayer.normalized;
+        if (dir != Vector3.zero)
+            transform.forward = dir.normalized;
 
-        Vector3 move = Vector3.zero;
+        Vector3 move = dist > attackDistance + 0.5f ? dir.normalized * moveSpeed : Vector3.zero;
 
-        if (distance > attackDistance + 0.5f)
-        {
-            move = dirToPlayer.normalized * moveSpeed;
-        }
-
-        if (controller.isGrounded)
-            velocityY = -2f;
-        else
-            velocityY += gravity * Time.deltaTime;
-
+        velocityY = controller.isGrounded ? -2f : velocityY + gravity * Time.deltaTime;
         move.y = velocityY;
 
-        Vector3 previousPosition = transform.position;
+        Vector3 prev = transform.position;
         controller.Move(move * Time.deltaTime);
-        Vector3 actualMovement = transform.position - previousPosition;
-        actualMovement.y = 0f;
 
-        animator.SetBool("IsWalking", actualMovement.magnitude > 0.01f);
+        animator.SetBool("IsWalking",
+            (transform.position - prev).magnitude > 0.01f);
     }
 
+    /* ----------------- Ataques ----------------- */
     protected override void HandleAttacks()
     {
-        Vector3 dirToPlayer = player.position - transform.position;
-        dirToPlayer.y = 0f;
-        float distance = dirToPlayer.magnitude;
+        powerTimer -= Time.deltaTime;
+        if (powerTimer <= 0f)
+        {
+            powerProb = Mathf.Clamp01(powerProb + powerInc);
+            powerTimer = 20f;
+        }
 
+        bareTimer -= Time.deltaTime;
+        if (bareTimer <= 0f)
+        {
+            bareProb = Mathf.Clamp01(bareProb + bareInc);
+            bareTimer = 20f;
+        }
+
+        float dist = Vector3.Distance(transform.position, player.position);
+
+        /* ---------- Power Attack ---------- */
+        if (dist <= powerAttackRange &&
+            powerHandler != null &&
+            powerHandler.CanUse &&
+            Random.value < powerProb)
+        {
+            powerHandler.ExecutePower();
+            return;                             
+        }
+
+        /* ---------- Strikes especiais (4‑5) ---------- */
         if (strikeCooldownTimer > 0f)
             strikeCooldownTimer -= Time.deltaTime;
 
-        // Power Attack (raio vermelho)
-        if (distance <= powerAttackRange && powerHandler != null && powerHandler.CanUse)
+        if (dist <= attackDistance + 1f && strikeCooldownTimer <= 0f)
         {
-            powerHandler.ExecutePower();
-            return; // Não ataca com outros strikes nesse frame
-        }
-
-        // Strike alternado (ButterflyTwirl e HurricaneKick = slots 4 e 5)
-        if (distance <= attackDistance + 1f && strikeCooldownTimer <= 0f)
-        {
-            attackHandler.ExecuteStrike(strikeToggle + 4); // 4 ou 5
+            attackHandler.ExecuteStrike(strikeToggle + 4);   
             strikeToggle = 1 - strikeToggle;
             strikeCooldownTimer = strikeCooldown;
             return;
         }
 
-        // Ataques normais (socos/pontapés)
-        if (distance <= attackDistance && !animator.GetBool("IsWalking"))
+        /* ---------- Strikes normais (0‑3) ---------- */
+        if (dist <= attackDistance && !animator.GetBool("IsWalking"))
         {
             decisionTimer -= Time.deltaTime;
 
             if (decisionTimer <= 0f)
             {
-                decisionTimer = Random.Range(1f, decisionCooldown);
-                int strikeIndex = Random.Range(0, 4);
-                attackHandler.ExecuteStrike(strikeIndex);
+                decisionTimer = Random.Range(1f, 2f);
+
+                if (Random.value < bareProb)                
+                {
+                    int idx = Random.Range(0, 4);           
+                    attackHandler.ExecuteStrike(idx);
+                }
             }
         }
     }
