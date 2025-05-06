@@ -17,7 +17,7 @@ MonoBehaviour:
   damage: 5
   range: 10
   sfx: {fileID: 0}
-  vfxPrefab: {fileID: 5905165805694329821, guid: 6b3393aae579afe4e8db07215ceb688f, type: 3}
+  vfxPrefab: {fileID: 7330117372153641261, guid: c5fb57414de8f034f832b70fa3c29ea7, type: 3}
   targetMask:
     serializedVersion: 2
     m_Bits: 8
